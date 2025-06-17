@@ -46,7 +46,7 @@ function moveBall() {
     ballSpeedY *= -1;
   }
 
-  // Rebater na raquete
+  // Rebater na raquete (lado esquerdo)
   if (
     ballX - ballRadius < 20 &&
     ballY > paddleY &&
@@ -55,13 +55,17 @@ function moveBall() {
     ballSpeedX *= -1;
   }
 
-  // Game Over
+  // Rebater na parede direita
+  if (ballX + ballRadius > canvas.width) {
+    ballSpeedX *= -1;
+  }
+
+  // Game Over se passar da raquete (lado esquerdo)
   if (ballX - ballRadius < 0) {
     alert("Game Over! Recarregue a página para jogar novamente.");
     document.location.reload();
   }
 }
-
 function movePaddle() {
   if (upPressed && paddleY > 0) {
     paddleY -= 5;
