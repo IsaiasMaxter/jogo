@@ -5,7 +5,7 @@ const paddleHeight = 80;
 const paddleWidth = 10;
 let paddleY = canvas.height / 2 - paddleHeight / 2;
 
-const ballSize = 10;
+const ballRadius = 10;
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
 let ballSpeedX = 4;
@@ -14,11 +14,12 @@ let ballSpeedY = 3;
 let upPressed = false;
 let downPressed = false;
 
-document.addEventListener("keydown", function(e) {
+document.addEventListener("keydown", function (e) {
   if (e.key === "ArrowUp") upPressed = true;
   if (e.key === "ArrowDown") downPressed = true;
 });
-document.addEventListener("keyup", function(e) {
+
+document.addEventListener("keyup", function (e) {
   if (e.key === "ArrowUp") upPressed = false;
   if (e.key === "ArrowDown") downPressed = false;
 });
@@ -30,7 +31,7 @@ function drawPaddle() {
 
 function drawBall() {
   ctx.beginPath();
-  ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
+  ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
   ctx.fillStyle = "lime";
   ctx.fill();
   ctx.closePath();
@@ -40,13 +41,14 @@ function moveBall() {
   ballX += ballSpeedX;
   ballY += ballSpeedY;
 
-  if (ballY + ballSize > canvas.height || ballY - ballSize < 0) {
+  // Rebater no topo e no fundo
+  if (ballY + ballRadius > canvas.height || ballY - ballRadius < 0) {
     ballSpeedY *= -1;
   }
 
-  // Colisão com a raquete
+  // Rebater na raquete
   if (
-    ballX - ballSize < 20 &&
+    ballX - ballRadius < 20 &&
     ballY > paddleY &&
     ballY < paddleY + paddleHeight
   ) {
@@ -54,7 +56,7 @@ function moveBall() {
   }
 
   // Game Over
-  if (ballX < 0) {
+  if (ballX - ballRadius < 0) {
     alert("Game Over! Recarregue a página para jogar novamente.");
     document.location.reload();
   }
